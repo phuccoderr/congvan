@@ -66,6 +66,17 @@ function initTable(db: Database.Database) {
 
   db.exec(
     `
+        CREATE TABLE IF NOT EXISTS requirement (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          ten VARCHAR(200) NOT NULL UNIQUE,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          deleted_at DATETIME DEFAULT NULL
+        )
+      `
+  )
+
+  db.exec(
+    `
         CREATE TABLE IF NOT EXISTS people (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           ho_ten VARCHAR(100) NOT NULL,
@@ -112,23 +123,26 @@ function initTable(db: Database.Database) {
         CREATE TABLE IF NOT EXISTS incoming_documents (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           so_den INTEGER NOT NULL,
-          nam SMALLINT NOT NULL,
           ngay_den DATE NOT NULL DEFAULT (CURRENT_DATE),
-          type_id INTEGER REFERENCES document_types(id),
+
+          partner_id INTEGER REFERENCES partners(id),
           so_ky_hieu_goc VARCHAR(100),
           ngay_van_ban DATE,
-          partner_id INTEGER REFERENCES partners(id),
+          type_id INTEGER REFERENCES document_types(id),
           trich_yeu TEXT NOT NULL,
           urgency_id INTEGER REFERENCES urgency_levels(id),
           confidentiality_id INTEGER REFERENCES confidentiality_levels(id),
           delivery_id INTEGER REFERENCES delivery_methods(id),
+
+          requirement_id INTEGER REFERENCES requirement(id),
+          y_kien TEXT,
+          department_id INTEGER REFERENCES departments(id),
+          people_id INTEGER REFERENCES people(id),
           han_xu_ly DATE,
-          trang_thai VARCHAR(20) NOT NULL DEFAULT 'moi'
-            CHECK (trang_thai IN ('moi', 'dang_xu_ly', 'hoan_thanh', 'qua_han')),
-          gmail_message_id TEXT UNIQUE,
+          ngay_hoan_thanh DATE,
           ghi_chu TEXT,
           created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-          UNIQUE (nam, so_den)
+          UNIQUE (so_den)
         )
       `
   )
@@ -138,22 +152,25 @@ function initTable(db: Database.Database) {
         CREATE TABLE IF NOT EXISTS outgoing_documents (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           so_di INTEGER NOT NULL,
-          nam SMALLINT NOT NULL,
-          type_id INTEGER NOT NULL REFERENCES document_types(id),
           so_ky_hieu VARCHAR(100) NOT NULL,
           ngay_ban_hanh DATE NOT NULL DEFAULT (CURRENT_DATE),
+          
+          type_id INTEGER NOT NULL REFERENCES document_types(id),
           trich_yeu TEXT NOT NULL,
-          don_vi_soan_id INTEGER REFERENCES departments(id),
+          department_id INTEGER REFERENCES departments(id),
           nguoi_ky_id INTEGER REFERENCES people(id),
-          kinh_gui TEXT,
-          noi_nhan TEXT,
-          reply_to_id INTEGER REFERENCES incoming_documents(id),
           urgency_id INTEGER REFERENCES urgency_levels(id),
           confidentiality_id INTEGER REFERENCES confidentiality_levels(id),
+          link_file TEXT,
+          
+          noi_nhan TEXT,
+          kinh_gui TEXT,
           delivery_id INTEGER REFERENCES delivery_methods(id),
-          doc_url TEXT,
+          ngay_gui DATE,
+          so_ban INTEGER,
+          ghi_chu TEXT,
           created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-          UNIQUE (so_ky_hieu, nam)
+          UNIQUE (so_ky_hieu)
         )
       `
   )

@@ -13,6 +13,7 @@ import { PartnersRepo } from './database/partners.repo'
 import { IncomingDocumentsRepo } from './database/incoming-documents.repo'
 import { OutgoingDocumentsRepo } from './database/outgoing-documents.repo'
 import { DocumentAssignmentsRepo } from './database/document-assignments.repo'
+import { RequirementRepo } from './database/requirement.repo'
 
 function createWindow(): void {
   // Create the browser window.
@@ -80,6 +81,7 @@ app.whenReady().then(() => {
   IncomingDocumentsRepo(db)
   OutgoingDocumentsRepo(db)
   DocumentAssignmentsRepo(db)
+  RequirementRepo(db)
 
   // IPC test
   ipcMain.on('ping', () => console.log('pong'))

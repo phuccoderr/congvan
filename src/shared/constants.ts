@@ -31,6 +31,14 @@ export const IPC_CHANNELS = {
     DELETE_ONE: 'partners:delete-one',
     DELETE_MANY: 'partners:delete-many'
   },
+  REQUIREMENTS: {
+    GET_ALL: 'requirements:get-all',
+    GET_ONE: 'requirements:get-one',
+    CREATE: 'requirements:create',
+    UPDATE: 'requirements:update',
+    DELETE_ONE: 'requirements:delete-one',
+    DELETE_MANY: 'requirements:delete-many'
+  },
   PEOPLE: {
     GET_ALL: 'people:get-all',
     GET_ONE: 'people:get-one',

@@ -1,6 +1,6 @@
 import { queryClient } from '@/lib/utils'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { PartnersData } from 'src/shared/type'
+import { PartnersData, QueryPagination } from 'src/shared/type'
 
 export const partnersKeys = {
   all: ['partners'] as const,
@@ -9,8 +9,7 @@ export const partnersKeys = {
     page?: number
     limit?: number
     filters?: Array<{ field: string; value: string }>
-  }) =>
-    [...partnersKeys.lists(), params] as const,
+  }) => [...partnersKeys.lists(), params] as const,
   details: () => [...partnersKeys.all, 'detail'] as const,
   detail: (id: number) => [...partnersKeys.details(), id] as const
 }
@@ -22,7 +21,7 @@ export function usePartners(params?: {
 }) {
   return useQuery({
     queryKey: partnersKeys.list(params),
-    queryFn: () => window.api.partners.getAll(params),
+    queryFn: () => window.api.partners.getAll(params) as QueryPagination<PartnersData>,
     placeholderData: (previousData) => previousData
   })
 }

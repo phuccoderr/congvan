@@ -1,5 +1,6 @@
-import { DepartmentData, DepartmentFormValues } from '@/schemas/department'
+import { DepartmentFormValues } from '@/schemas/department'
 import { DepartmentFormModal } from './department-form-modal'
+import { DepartmentData } from 'src/shared/type'
 
 interface UpdateDepartmentDialogProps {
   open: boolean

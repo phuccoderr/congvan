@@ -1,6 +1,6 @@
 import { queryClient } from '@/lib/utils'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { ConfidentialityLevelsData } from 'src/shared/type'
+import { ConfidentialityLevelsData, QueryPagination } from 'src/shared/type'
 
 export const confidentialityLevelsKeys = {
   all: ['confidentiality-levels'] as const,
@@ -23,7 +23,8 @@ export function useConfidentialityLevels(params?: {
 }) {
   return useQuery({
     queryKey: confidentialityLevelsKeys.list(params),
-    queryFn: () => window.api.confidentialityLevels.getAll(params),
+    queryFn: () =>
+      window.api.confidentialityLevels.getAll(params) as QueryPagination<ConfidentialityLevelsData>,
     placeholderData: (previousData) => previousData
   })
 }

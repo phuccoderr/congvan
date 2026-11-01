@@ -1,6 +1,6 @@
 import { queryClient } from '@/lib/utils'
 import { useQuery, useMutation } from '@tanstack/react-query'
-import { DepartmentData } from 'src/shared/type'
+import { DepartmentData, QueryPagination } from 'src/shared/type'
 
 // Định nghĩa Query Keys chuẩn (Query Key Factories)
 export const departmentKeys = {
@@ -24,7 +24,7 @@ export function useDepartments(params?: {
 }) {
   return useQuery({
     queryKey: departmentKeys.list(params),
-    queryFn: () => window.api.departments.getAll(params),
+    queryFn: () => window.api.departments.getAll(params) as QueryPagination<DepartmentData>,
     placeholderData: (previousData) => previousData
   })
 }

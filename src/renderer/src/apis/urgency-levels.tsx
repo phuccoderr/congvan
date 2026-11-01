@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { UrgencyLevelsData } from 'src/shared/type'
+import { QueryPagination, UrgencyLevelsData } from 'src/shared/type'
 
 export const urgencyLevelsKeys = {
   all: ['urgency-levels'] as const,
@@ -22,7 +22,7 @@ export function useUrgencyLevels(params?: {
 }) {
   return useQuery({
     queryKey: urgencyLevelsKeys.list(params),
-    queryFn: () => window.api.urgencyLevels.getAll(params),
+    queryFn: () => window.api.urgencyLevels.getAll(params) as QueryPagination<UrgencyLevelsData>,
     placeholderData: (previousData) => previousData
   })
 }

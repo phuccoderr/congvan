@@ -1,12 +1,15 @@
 import { queryClient } from '@/lib/utils'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { IncomingDocumentsData } from 'src/shared/type'
+import { IncomingDocumentsData, QueryPagination } from 'src/shared/type'
 
 export const incomingDocumentsKeys = {
   all: ['incoming-documents'] as const,
   lists: () => [...incomingDocumentsKeys.all, 'list'] as const,
-  list: (params?: { page?: number; limit?: number; filters?: Array<{ field: string; value: string }> }) =>
-    [...incomingDocumentsKeys.lists(), params] as const,
+  list: (params?: {
+    page?: number
+    limit?: number
+    filters?: Array<{ field: string; value: string }>
+  }) => [...incomingDocumentsKeys.lists(), params] as const,
   details: () => [...incomingDocumentsKeys.all, 'detail'] as const,
   detail: (id: number) => [...incomingDocumentsKeys.details(), id] as const
 }
@@ -18,7 +21,8 @@ export function useIncomingDocuments(params?: {
 }) {
   return useQuery({
     queryKey: incomingDocumentsKeys.list(params),
-    queryFn: () => window.api.incomingDocuments.getAll(params),
+    queryFn: () =>
+      window.api.incomingDocuments.getAll(params) as QueryPagination<IncomingDocumentsData>,
     placeholderData: (previousData) => previousData
   })
 }

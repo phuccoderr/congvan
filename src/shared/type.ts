@@ -8,6 +8,17 @@ import { type PartnersFormValues } from '../renderer/src/schemas/partners'
 import { type IncomingDocumentsFormValues } from '../renderer/src/schemas/incoming-documents'
 import { type OutgoingDocumentsFormValues } from '../renderer/src/schemas/outgoing-documents'
 import { type DocumentAssignmentsFormValues } from '../renderer/src/schemas/document-assignments'
+import { type RequirementFormValues } from '../renderer/src/schemas/requirement'
+
+export type QueryPagination<T> = {
+  data: T[]
+  pagination: {
+    limit: number
+    page: number
+    total: number
+    totalPages: number
+  }
+}
 
 export interface DepartmentData extends DepartmentFormValues {
   id?: number
@@ -48,6 +59,12 @@ export interface PeopleData extends Omit<PeopleFormValues, 'is_signer' | 'is_act
 }
 
 export interface PartnersData extends PartnersFormValues {
+  id?: number
+  created_at?: string
+  deleted_at?: string | null
+}
+
+export interface RequirementData extends RequirementFormValues {
   id?: number
   created_at?: string
   deleted_at?: string | null

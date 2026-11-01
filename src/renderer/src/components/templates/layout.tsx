@@ -7,7 +7,7 @@ export function Layout() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main className="w-full">
+      <main className="w-full overflow-hidden">
         <div className="flex m-1">
           <SidebarTrigger />
           <Header />

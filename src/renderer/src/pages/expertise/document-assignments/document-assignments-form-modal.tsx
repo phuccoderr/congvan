@@ -63,7 +63,7 @@ export function DocumentAssignmentsFormModal({
       ? [
           {
             value: document.id,
-            label: `${document.so_den}/${document.nam} - ${document.trich_yeu}`
+            label: `${document.so_den} - ${document.trich_yeu}`
           }
         ]
       : []

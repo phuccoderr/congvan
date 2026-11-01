@@ -1,7 +1,7 @@
 'use client'
 
 import { DataTable, DataTableFeatures, SearchFilterItem } from '@/components/ui/data-table'
-import { DepartmentData, DepartmentFormValues } from '@/schemas/department'
+import { DepartmentFormValues } from '@/schemas/department'
 import { createColumnHelper } from '@tanstack/react-table'
 import { useState } from 'react'
 import { CreateDepartmentDialog } from './create-department-dialog'
@@ -26,6 +26,7 @@ import { MoreHorizontal, Pencil, Trash2 } from 'lucide-react'
 import { UpdateDepartmentDialog } from './update-department-dialog'
 import { DeleteAlertModal } from '@/components/ui/delete-alert-modal'
 import { toast } from 'sonner'
+import { DepartmentData } from 'src/shared/type'
 
 export function Department() {
   // 1. Quản lý trạng thái (State) đóng/mở của các Dialog (Modal)

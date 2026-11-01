@@ -5,7 +5,6 @@ import { OutgoingDocumentsData } from '../../shared/type'
 
 const searchableFields = [
   'so_di',
-  'nam',
   'so_ky_hieu',
   'ngay_ban_hanh',
   'trich_yeu',
@@ -15,20 +14,21 @@ const searchableFields = [
 
 const documentFields = [
   'so_di',
-  'nam',
   'type_id',
   'so_ky_hieu',
   'ngay_ban_hanh',
   'trich_yeu',
-  'don_vi_soan_id',
+  'department_id',
   'nguoi_ky_id',
   'kinh_gui',
   'noi_nhan',
-  'reply_to_id',
   'urgency_id',
   'confidentiality_id',
   'delivery_id',
-  'doc_url'
+  'link_file',
+  'ngay_gui',
+  'so_ban',
+  'ghi_chu'
 ] as const
 
 type DocumentField = (typeof documentFields)[number]
@@ -60,7 +60,7 @@ export function OutgoingDocumentsRepo(db: Database.Database): void {
           }
         }
 
-        query += ' ORDER BY nam DESC, so_di DESC LIMIT ? OFFSET ?'
+        query += ' ORDER BY ngay_ban_hanh DESC, so_di DESC LIMIT ? OFFSET ?'
         queryParams.push(limit, offset)
         const data = db.prepare(query).all(...queryParams) as OutgoingDocumentsData[]
         const total = db.prepare(countQuery).get(...countParams) as { total: number }

@@ -11,7 +11,8 @@ import {
   UrgencyLevelsData,
   IncomingDocumentsData,
   OutgoingDocumentsData,
-  DocumentAssignmentsData
+  DocumentAssignmentsData,
+  RequirementData
 } from '../shared/type'
 
 // Custom APIs for renderer
@@ -99,6 +100,28 @@ const api = {
     deleteOne: (id: number) => ipcRenderer.invoke(IPC_CHANNELS.PARTNERS.DELETE_ONE, id),
 
     deleteMany: (ids: number[]) => ipcRenderer.invoke(IPC_CHANNELS.PARTNERS.DELETE_MANY, ids)
+  },
+  requirements: {
+    getAll: (params?: {
+      page?: number
+      limit?: number
+      filters?: Array<{ field: string; value: string }>
+    }) => ipcRenderer.invoke(IPC_CHANNELS.REQUIREMENTS.GET_ALL, params),
+
+    getOne: (id: number) => ipcRenderer.invoke(IPC_CHANNELS.REQUIREMENTS.GET_ONE, id),
+
+    create: (data: Omit<RequirementData, 'id' | 'created_at' | 'deleted_at'>) =>
+      ipcRenderer.invoke(IPC_CHANNELS.REQUIREMENTS.CREATE, data),
+
+    update: (
+      id: number,
+      data: Partial<Omit<RequirementData, 'id' | 'created_at' | 'deleted_at'>>
+    ) => ipcRenderer.invoke(IPC_CHANNELS.REQUIREMENTS.UPDATE, { id, data }),
+
+    deleteOne: (id: number) => ipcRenderer.invoke(IPC_CHANNELS.REQUIREMENTS.DELETE_ONE, id),
+
+    deleteMany: (ids: number[]) =>
+      ipcRenderer.invoke(IPC_CHANNELS.REQUIREMENTS.DELETE_MANY, ids)
   },
   people: {
     getAll: (params?: {

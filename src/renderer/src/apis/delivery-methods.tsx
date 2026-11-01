@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { DeliveryMethodsData } from 'src/shared/type'
+import { DeliveryMethodsData, QueryPagination } from 'src/shared/type'
 
 export const deliveryMethodsKeys = {
   all: ['delivery-methods'] as const,
@@ -25,7 +25,8 @@ export function useDeliveryMethods(params?: {
 }) {
   return useQuery({
     queryKey: deliveryMethodsKeys.list(params),
-    queryFn: () => window.api.deliveryMethods.getAll(params),
+    queryFn: () =>
+      window.api.deliveryMethods.getAll(params) as QueryPagination<DeliveryMethodsData>,
     placeholderData: (previousData) => previousData
   })
 }

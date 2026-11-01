@@ -5,29 +5,33 @@ import { IncomingDocumentsData } from '../../shared/type'
 
 const searchableFields = [
   'so_den',
-  'nam',
   'ngay_den',
   'so_ky_hieu_goc',
   'ngay_van_ban',
   'trich_yeu',
-  'trang_thai'
+  'y_kien',
+  'han_xu_ly',
+  'ngay_hoan_thanh',
+  'ghi_chu'
 ]
 
 const documentFields = [
   'so_den',
-  'nam',
   'ngay_den',
-  'type_id',
+  'partner_id',
   'so_ky_hieu_goc',
   'ngay_van_ban',
-  'partner_id',
+  'type_id',
   'trich_yeu',
   'urgency_id',
   'confidentiality_id',
   'delivery_id',
+  'requirement_id',
+  'y_kien',
+  'department_id',
+  'people_id',
   'han_xu_ly',
-  'trang_thai',
-  'gmail_message_id',
+  'ngay_hoan_thanh',
   'ghi_chu'
 ] as const
 
@@ -60,7 +64,7 @@ export function IncomingDocumentsRepo(db: Database.Database): void {
           }
         }
 
-        query += ' ORDER BY nam DESC, so_den DESC LIMIT ? OFFSET ?'
+        query += ' ORDER BY ngay_den DESC, so_den DESC LIMIT ? OFFSET ?'
         queryParams.push(limit, offset)
         const data = db.prepare(query).all(...queryParams) as IncomingDocumentsData[]
         const total = db.prepare(countQuery).get(...countParams) as { total: number }
@@ -83,9 +87,8 @@ export function IncomingDocumentsRepo(db: Database.Database): void {
 
   ipcMain.handle(IPC_CHANNELS.INCOMING_DOCUMENTS.GET_ONE, async (_, id: number) => {
     try {
-      return db
-        .prepare('SELECT * FROM incoming_documents WHERE id = ?')
-        .get(id) as IncomingDocumentsData | undefined
+      return db.prepare('SELECT * FROM incoming_documents WHERE id = ?').get(id) as
+        IncomingDocumentsData | undefined
     } catch (error) {
       console.error('Lỗi lấy văn bản đến theo ID:', error)
       throw error
@@ -100,7 +103,9 @@ export function IncomingDocumentsRepo(db: Database.Database): void {
         const values = columns.map((field) => data[field] ?? null)
         const placeholders = columns.map(() => '?').join(', ')
         const result = db
-          .prepare(`INSERT INTO incoming_documents (${columns.join(', ')}) VALUES (${placeholders})`)
+          .prepare(
+            `INSERT INTO incoming_documents (${columns.join(', ')}) VALUES (${placeholders})`
+          )
           .run(...values)
 
         return db
@@ -130,17 +135,15 @@ export function IncomingDocumentsRepo(db: Database.Database): void {
           ([field, value]) => documentFields.includes(field as DocumentField) && value !== undefined
         )
         if (entries.length === 0) {
-          return db
-            .prepare('SELECT * FROM incoming_documents WHERE id = ?')
-            .get(id) as IncomingDocumentsData | undefined
+          return db.prepare('SELECT * FROM incoming_documents WHERE id = ?').get(id) as
+            IncomingDocumentsData | undefined
         }
 
         const setClause = entries.map(([field]) => `${field} = ?`).join(', ')
         const values = entries.map(([, value]) => value ?? null)
         db.prepare(`UPDATE incoming_documents SET ${setClause} WHERE id = ?`).run(...values, id)
-        return db
-          .prepare('SELECT * FROM incoming_documents WHERE id = ?')
-          .get(id) as IncomingDocumentsData | undefined
+        return db.prepare('SELECT * FROM incoming_documents WHERE id = ?').get(id) as
+          IncomingDocumentsData | undefined
       } catch (error) {
         console.error('Lỗi cập nhật văn bản đến:', error)
         throw error

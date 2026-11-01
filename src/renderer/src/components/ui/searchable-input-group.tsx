@@ -81,7 +81,7 @@ export function SearchableInputGroup({
         <div
           id={`${id}-options`}
           role="listbox"
-          className="absolute z-50 mt-1 max-h-56 w-full overflow-y-auto rounded-md border bg-popover p-1 text-popover-foreground shadow-md"
+          className="absolute z-50 mt-1 max-h-56 min-w-25 w-full flex flex-col overflow-y-auto rounded-md border bg-popover p-1 text-popover-foreground shadow-md"
         >
           {loading ? (
             <div className="px-2 py-1.5 text-sm text-muted-foreground">Đang tải danh sách...</div>

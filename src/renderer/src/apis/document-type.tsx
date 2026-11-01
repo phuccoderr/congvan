@@ -1,6 +1,6 @@
 import { queryClient } from '@/lib/utils'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { DocumentTypeData } from 'src/shared/type'
+import { DocumentTypeData, QueryPagination } from 'src/shared/type'
 
 export const documentTypeKeys = {
   all: ['document-types'] as const,
@@ -23,7 +23,7 @@ export function useDocumentTypes(params?: {
 }) {
   return useQuery({
     queryKey: documentTypeKeys.list(params),
-    queryFn: () => window.api.documentTypes.getAll(params),
+    queryFn: () => window.api.documentTypes.getAll(params) as QueryPagination<DocumentTypeData>,
     placeholderData: (previousData) => previousData
   })
 }

@@ -10,6 +10,7 @@ import { Partners } from '@/pages/category/partners'
 import { IncomingDocuments } from '@/pages/expertise/incoming-documents'
 import { OutgoingDocuments } from '@/pages/expertise/outgoing-documents'
 import { DocumentAssignments } from '@/pages/expertise/document-assignments'
+import { Requirement } from '@/pages/category/requirement'
 import { createHashRouter } from 'react-router-dom'
 
 export const routes = createHashRouter([
@@ -43,6 +44,10 @@ export const routes = createHashRouter([
       {
         element: <Partners />,
         path: '/partners'
+      },
+      {
+        element: <Requirement />,
+        path: '/requirements'
       },
       {
         element: <ConfidentialityLevels />,
